@@ -1,0 +1,31 @@
+# curl -u premysl.vyhnal@gmail.com   -d '{"scopes":["public_repo"],"note":"XXX token name XXX"}'   https://api.github.com/authorizations
+
+
+language: bash
+sudo: false
+install: true
+addons:
+  apt:
+    packages:
+    - lua5.1
+    - python2.7
+script: "./build.sh web"
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    # travis encrypt <token>
+    secure: PgVNO2s3lKMo+OMjJ46xF+etwZWlfIKwY+4dTk2rg6PCU9byfapeYPk4XrHAZEF4/UsX7P5YgZkHo5QEY5cnfG+xLJUXg+uhZLQuRSQzYVo3xlWYHMDPKQrCq6IvLDrdt4JNS0lZvXU+nJ+78YK5yx2gag9KmfIzYTiTVp5iqZPu+dO9A6HEJ656SuQcJcOrbSNrveQU9ulwq4lfQ1nA8xiYfql08Z2lMAMJa1HGl0Req3Qq7Ghc1km85gAiKgU/0xHTVnPntgAMrl0sbRae5vYJkCBvNp8i+tayG93tdi+TUlHYHk1WvIJqP216XJIzalPhzqh7wBRr4kpEU5Qs1+FSQ1s+cSAvDrR1ItSJhe1O7i8FLFubAAcd2vZ3vlMSGvHXw5v2wCSnnNt6rvoLYXurhYUBCs4DlSvoMrtSR0ZzbAMBl3VJ07uz3FSK1xVkyXs6oAcOg6renslpmvf5odR56b0lo7CVLA+/y8ewNT0HqBqpqmUuT9ngvtdBz8vXAyhuTRqfceQavDvMozxZKMv5fmkoyKknNcGKNwZYhB3EPf4Z2p+9L3rjwLBspzdX4ewgcalbgiXHpbtRodaF90xx7AYWiJutLBf6VxZ3I74o9FD6D+9TvEBHOGktjV7piSGqMak2gFsfpT/MJUMlhSFhNQSiTIPoyko2QWTOTis=PgVNO2s3lKMo+OMjJ46xF+etwZWlfIKwY+4dTk2rg6PCU9byfapeYPk4XrHAZEF4/UsX7P5YgZkHo5QEY5cnfG+xLJUXg+uhZLQuRSQzYVo3xlWYHMDPKQrCq6IvLDrdt4JNS0lZvXU+nJ+78YK5yx2gag9KmfIzYTiTVp5iqZPu+dO9A6HEJ656SuQcJcOrbSNrveQU9ulwq4lfQ1nA8xiYfql08Z2lMAMJa1HGl0Req3Qq7Ghc1km85gAiKgU/0xHTVnPntgAMrl0sbRae5vYJkCBvNp8i+tayG93tdi+TUlHYHk1WvIJqP216XJIzalPhzqh7wBRr4kpEU5Qs1+FSQ1s+cSAvDrR1ItSJhe1O7i8FLFubAAcd2vZ3vlMSGvHXw5v2wCSnnNt6rvoLYXurhYUBCs4DlSvoMrtSR0ZzbAMBl3VJ07uz3FSK1xVkyXs6oAcOg6renslpmvf5odR56b0lo7CVLA+/y8ewNT0HqBqpqmUuT9ngvtdBz8vXAyhuTRqfceQavDvMozxZKMv5fmkoyKknNcGKNwZYhB3EPf4Z2p+9L3rjwLBspzdX4ewgcalbgiXHpbtRodaF90xx7AYWiJutLBf6VxZ3I74o9FD6D+9TvEBHOGktjV7piSGqMak2gFsfpT/MJUMlhSFhNQSiTIPoyko2QWTOTis=
+  file:
+  - target/Tangram.love
+  - target/Tangram-win.zip
+  - target/Tangram-web.zip
+  on:
+    tags: true
+    all_branches: true
+after_success:
+- "[[ -n $TRAVIS_TAG ]] && ./build.sh deploy premek/tangram"
+env:
+  global:
+   # travis encrypt GH_TOKEN=<token>
+  - secure: qE+M4aWXGmLBBHZ8iosI24Dvn3Ft8hOUyGT4R9VhiLemT1gs6tFFc3cazfV+YxkuGAxGE7OXqD27pkoASYv611u3alOklVACe4oak0sQtYVkg0cEwBbXmWBzXJgKtw+plcEooRpps92mvos5B5JeUesiGM6tcDXRyO5UOPImtKg5fMtG9Wj/6dFIWYlyhfqlH2MzOX1wkFR5dAM3TedyrwZXr5TjMd6jgy0HBlMHo/m+csQhB0Kvn1fgVCybMksE80QxxtLODH/tunHmyNT7BBu82Tsy0Nm0AT1GuK13bJigvqKIvXDDXxePrNaNxaURjgtRy8VOd5RzxpL/DU6wzfjk+FXn8Ron27uMY0pAo7pB67zb1bYon8gupy4VScuPNIAKDQd3ZGPMduUA2cryOGtXWFU4eoYpDkMYYQToqIxNW+hEqdjv//jQ9lggSUSSYnUHChly8d94f/DUshPKycHmIp9IVW0t0HQW4HBbH+GSs1HepgRDu1FzjJvCNV7FY/XLVQ3YknBNVbAeTEOY/J0cr4oWjapXb83xFCTRlckA0rqC4L0w6aWXK4S1eAazx4A8on0QogNfrVMrzoodP18sbGZlcFvenyYieAkwwtKV0B9AQk4kJONabTPB7s/RWsTAcZlw1VVVBYdWFSb3ptasZekX/oE/hQvYdn9CU04=
